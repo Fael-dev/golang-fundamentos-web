@@ -43,3 +43,16 @@ func BuscaTodosOsProdutos() []Produto {
 	defer db.Close()
 	return produtos
 }
+
+func CriarProduto(nome, descricao string, preco float64, quantidade int){
+	db := datasource.ConexaoBd()
+
+	inseriDados, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values ($1, $2, $3, $4)")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	inseriDados.Exec(nome, descricao, preco, quantidade)
+	defer db.Close()
+}
